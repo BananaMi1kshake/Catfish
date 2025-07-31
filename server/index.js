@@ -11,6 +11,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*" },
+  pingInterval: 25000, // Send a ping every 25 seconds
+  pingTimeout: 20000,  // Wait 20 seconds for a response
   allowEIO3: true
 });
 
