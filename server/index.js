@@ -9,7 +9,11 @@ console.log("Pexels API Key Loaded:", process.env.PEXELS_API_KEY ? "Yes, key fou
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+  cors: { origin: "*" },
+  allowEIO3: true
+});
+
 
 // --- Game State & Data ---
 let players = [];
