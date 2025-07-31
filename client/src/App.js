@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import { FaPaperPlane, FaSearch, FaUpload, FaTrophy, FaUserSecret, FaSkullCrossbones, FaCheckCircle, FaTimesCircle, FaUserPlus } from 'react-icons/fa';
 
-const socket = io('https://catfish-game-server.onrender.com', {
-  transports: ['websocket', 'polling'] // Prioritize websocket
-});
+const socket = io('https://catfish-game-server.onrender.com');
 
 // --- Timer Bar Component ---
 function TimerBar({ phase, timeLeft, duration }) {
