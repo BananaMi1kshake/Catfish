@@ -8,12 +8,14 @@ const axios = require('axios');
 console.log("Pexels API Key Loaded:", process.env.PEXELS_API_KEY ? "Yes, key found." : "No - THIS IS LIKELY THE PROBLEM.");
 
 const app = express();
+app.use(cors()); // Use cors as middleware for all http requests
+
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" },
-  pingInterval: 25000, // Send a ping every 25 seconds
-  pingTimeout: 20000,  // Wait 20 seconds for a response
-  allowEIO3: true
+  cors: {
+    origin: "https://catfish-game-client.onrender.com", // Be specific
+    methods: ["GET", "POST"]
+  }
 });
 
 
