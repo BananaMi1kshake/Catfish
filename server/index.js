@@ -2,22 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
-const cors = require('cors');
 const axios = require('axios');
 
 console.log("Pexels API Key Loaded:", process.env.PEXELS_API_KEY ? "Yes, key found." : "No - THIS IS LIKELY THE PROBLEM.");
 
 const app = express();
-app.use(cors()); // Use cors as middleware for all http requests
-
 const server = http.createServer(app);
+
+// This is the correct CORS configuration for Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "https://catfish-game-client.onrender.com", // Be specific
+    origin: "https://catfish-game-client.onrender.com",
     methods: ["GET", "POST"]
   }
 });
-
 
 // --- Game State & Data ---
 let players = [];
@@ -65,7 +63,7 @@ const startRound = () => {
   gameState.duration = PHASE_DURATIONS.Assignment;
   gameState.timeLeft = gameState.duration;
   gameLoop = setInterval(gameTick, 1000);
-  gameTick(); // Send initial tick immediately
+  gameTick();
 };
 
 const advancePhase = () => {
@@ -220,8 +218,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('requestNextRound', () => {
-    // Ensure only one person (e.g., the host) can trigger this
-    if (socket.id === players[0].id) {
+    if (socket.id === players[0]?.id) {
         startRound();
     }
   });
@@ -257,5 +254,5 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => console.log(`🎉 Server running on port ${PORT}`));
